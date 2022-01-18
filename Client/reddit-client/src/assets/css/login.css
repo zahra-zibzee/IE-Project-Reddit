@@ -22,6 +22,12 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.body-signup {
+  width: 900px;
+  height: 550px !important;
+}
+
+
 .box-1 img {
   width: 100%;
   height: 100%;
@@ -112,6 +118,14 @@
 
 .fas.fa-times:hover {
   color: #ff0000;
+}
+
+.login-link { 
+  font-weight: 600;
+  font-size: 14px;
+  color: rgb(0, 140, 255);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 @media (max-width: 767px) {
