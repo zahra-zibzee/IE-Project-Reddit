@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import image from "./../../assets/media/login.jpg";
 import {Link} from "react-router-dom";
-import PasswordField from "../Assets/PasswordField";
+import PasswordField from "../Layouts/PasswordField";
 
 const Login = () => {
   const userError = "";

@@ -149,11 +149,20 @@
 }
 
 .search-wide {
-  width: 700px !important;
+  width: 800px !important;
 }
 
 
 .h-20 {
   margin-top: 3px;
   height: 37px !important;
+}
+
+.bg-white {
+  background-color: white !important;
+}
+
+.active-btn {
+  color: blue !important;
+  border-bottom: 2px solid blue !important;
 }
