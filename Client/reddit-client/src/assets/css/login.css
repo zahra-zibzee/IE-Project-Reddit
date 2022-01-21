@@ -147,3 +147,13 @@
     height: 440px;
   }
 }
+
+.search-wide {
+  width: 700px !important;
+}
+
+
+.h-20 {
+  margin-top: 3px;
+  height: 37px !important;
+}

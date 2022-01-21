@@ -4,7 +4,7 @@ import Home from "../components/Pages/Home";
 import Login from "../components/Pages/Login";
 import Signup from "../components/Pages/Signup";
 function App() {
-  const login = false;
+  const login = true;
 
   const init_component = login ? Home : Login;
   
