@@ -7,6 +7,7 @@ const Signup = () => {
   const userError = "";
   const passError = "";
   const emailError = "";
+  document.body.style.backgroundColor = "white";
 
   return (
     <div class="container">

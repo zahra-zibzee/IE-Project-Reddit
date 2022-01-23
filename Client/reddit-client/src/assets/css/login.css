@@ -166,3 +166,15 @@
   color: blue !important;
   border-bottom: 2px solid blue !important;
 }
+
+.f-small {
+  font-size:15px;
+}
+
+.f-smaller {
+  font-size: 11px;
+}
+
+.no-border {
+  border: none;
+}

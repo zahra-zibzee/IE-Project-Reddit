@@ -6,7 +6,7 @@ import PasswordField from "../Layouts/PasswordField";
 const Login = () => {
   const userError = "";
   const passError = "";
-  
+  document.body.style.backgroundColor = "white";
 
   return (
     <div class="container">

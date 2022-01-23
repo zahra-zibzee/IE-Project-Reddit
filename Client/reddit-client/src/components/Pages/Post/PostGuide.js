@@ -1,5 +1,5 @@
 import React from "react";
-import post from "../../assets/media/post.png";
+import post from "../../../assets/media/post.png";
 
 const PostGuide = () => {
   return (

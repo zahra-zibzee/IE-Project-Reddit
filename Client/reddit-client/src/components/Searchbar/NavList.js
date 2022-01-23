@@ -1,18 +1,19 @@
 import React from "react";
 import avatar from "../../assets/media/avatar.jpg";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
+import {Link} from "react-router-dom";
 
 const NavList = () => {
   return (
     <>
       <ul className="navbar-nav flex-row d-none d-md-flex">
         <li className="nav-item me-3 me-lg-1 mt-2">
-          <a className="nav-link" href="#">
+          <Link className="nav-link" to="/userSettings">
             {"user settings "}
             <span>
               <i className="fas fa-cog fa-lg"></i>
             </span>
-          </a>
+          </Link>
         </li>
 
         <li className="mt-2">

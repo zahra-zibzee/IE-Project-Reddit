@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ColoredLine from "../Layouts/ColoredLine";
-import Navbar from "../Searchbar/Navbar";
+import ColoredLine from "../../Layouts/ColoredLine";
+import Navbar from "../../Searchbar/Navbar";
 import PostGuide from "./PostGuide";
 import { Dropdown, ButtonGroup, Button } from "react-bootstrap";
-import RichtextEditor from "../Layouts/RichTextEditor";
-import UploadImage from "../Layouts/UploadImage";
-import LinkArea from "../Layouts/LinkArea";
+import RichtextEditor from "../../Layouts/RichTextEditor";
+import UploadImage from "../../Layouts/UploadImage";
+import LinkArea from "../../Layouts/LinkArea";
 
 const AddNewPost = () => {
   const [postMode, setPostMode] = useState(1);
