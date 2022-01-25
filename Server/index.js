@@ -18,8 +18,13 @@ mongoose.connect('mongodb://localhost:27017/reddit')
 
 
 const usersRoutes = require("./routes/users");
+const communitiesRoutes = require("./routes/communities");
+const postsRoutes = require("./routes/posts");
+
 
 server.use('/users', usersRoutes);
+server.use('/communities', communitiesRoutes);
+server.use('/posts', postsRoutes);
 
 
 const PORT = process.env.PORT || 3000;

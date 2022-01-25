@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
-    type:{
+    post_type:{
         type: String,
-        enum: ['post', 'comment'],
-        default: 'comment'
+        enum: ['post', 'image-video', 'link'],
+        default: 'post'
     },
     text:{
         type: String,
@@ -12,31 +12,22 @@ const postSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 50
     },
-    //comment ids which replied this post or comment
-    comment_ids: [
-        {
-            comment_id: {
-                type: String,
-                required: true
-            }
-        }
-    ],
+    //comment ids which replied this post
+    comment_ids: [String],
+    //post belongs to this user
     user_id:{
         type: String,
         required: true,
     },
+    //this post was posted via this community
     community_id:{
         type: String,
         default: null
     },
-    likes:[
-        {
-            liker_id: {
-                type: String,
-                required: true
-            }
-        }
-    ],
+    //array of likers
+    likes:[String],
+    //array of dislikers
+    dislikes:[String],
     created_date:{
         type: Date,
         default: Date.now()
