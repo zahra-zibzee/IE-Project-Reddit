@@ -13,7 +13,7 @@ const AddNewPost = () => {
   return (
     <>
       <main className="dark">
-        <Navbar />
+        <Navbar navPage="addPost" />
         <div className="row mt-5">
           <div className="col-2"></div>
           <div className="col-5">
@@ -43,7 +43,7 @@ const AddNewPost = () => {
                   }
                   onClick={() => setPostMode(1)}
                 >
-                  <i class="fa fa-file-text" aria-hidden="true"></i>
+                  <i className="fa fa-file-text" aria-hidden="true"></i>
                   {" Post"}
                 </Button>
                 <Button
@@ -55,7 +55,7 @@ const AddNewPost = () => {
                   }
                   onClick={() => setPostMode(2)}
                 >
-                  <i class="fa fa-picture-o" aria-hidden="true"></i>
+                  <i className="fa fa-picture-o" aria-hidden="true"></i>
                   {" Image & Video"}
                 </Button>
                 <Button
@@ -67,7 +67,7 @@ const AddNewPost = () => {
                   }
                   onClick={() => setPostMode(3)}
                 >
-                  <i class="fa fa-link" aria-hidden="true"></i>
+                  <i className="fa fa-link" aria-hidden="true"></i>
                   {" Link"}
                 </Button>
               </ButtonGroup>

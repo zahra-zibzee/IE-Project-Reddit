@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import image from "./../../assets/media/login.jpg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import PasswordField from "../Layouts/PasswordField";
 
 const Login = () => {
@@ -9,7 +9,7 @@ const Login = () => {
   document.body.style.backgroundColor = "white";
 
   return (
-    <div class="container">
+    <div className="container">
       <div className="body d-md-flex align-items-center justify-content-between">
         <div className="box-1 mt-md-0 mt-5">
           <img src={image} />

@@ -2,9 +2,10 @@ import React from "react";
 import Navbar from "../Searchbar/Navbar";
 
 const Home = () => {
+  document.body.style.backgroundColor = "rgba(172, 183, 185, 0.568)";
     return (
         <main className="dark page">
-          <Navbar />
+          <Navbar navPage="home" />
           <header className="carousel">
             {/* <WorldNewsCarousel trendingItems={trendingItems} /> */}
           </header>

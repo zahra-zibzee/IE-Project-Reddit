@@ -10,7 +10,7 @@ const Signup = () => {
   document.body.style.backgroundColor = "white";
 
   return (
-    <div class="container">
+    <div className="container">
       <div className="body body-signup d-md-flex align-items-center justify-content-between">
         <div className="box-1 mt-md-0 mt-5">
           <img src={image} />

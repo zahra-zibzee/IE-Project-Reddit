@@ -5,6 +5,7 @@ import Login from "../components/Pages/Login";
 import Signup from "../components/Pages/Signup";
 import AddNewPost from "../components/Pages/Post/AddNewPost";
 import UserSettings from "../components/Pages/Setting/UserSettings";
+import Post from "../components/Pages/Post/Post";
 
 function App() {
   const login = true;
@@ -20,8 +21,9 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <Route exact path={"/addPost"} component={AddNewPost} />
           <Route exact path={"/userSettings"} component={UserSettings} />
+          <Route path="/post" component={Post} />
           {/* <Route exact path="/r/:display_name/" component={Subreddit} />
-          <Route path="/r/:subreddit/post/:id" component={Post} />
+          
           <Route exact path="/r/:currentSubreddit/hot" component={Hot} />
           <Route exact path="/r/:currentSubreddit/top" component={Top} />
           <Route exact path="/r/:currentSubreddit/new" component={New} />

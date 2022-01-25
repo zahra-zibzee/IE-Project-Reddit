@@ -10,7 +10,7 @@ const UserSettings = () => {
   return (
     <>
       <main className="dark page">
-        <Navbar />
+        <Navbar navPage="userSetting" />
         <div className="row">
           <div className="col-3"></div>
           <div className="col-6 mt-4">
@@ -29,7 +29,6 @@ const UserSettings = () => {
               </li>
               
             </ul>
-
             
             {accountActive ? <AccountSetting /> : <CustomizeProfile />}
 

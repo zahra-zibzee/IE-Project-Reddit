@@ -2,12 +2,18 @@ import React from "react";
 import logo from "../../assets/media/navlogo.png";
 import SearchInput from "./SearchInput";
 import NavList from "./NavList";
+import { Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
+import HomeToggle from "../Layouts/HomeToggle";
+import AddPostToggle from "../Layouts/AddPostToggle";
+import SettingToggle from "../Layouts/SettingToggle";
 
-const Navbar = (isContact) => {
+const Navbar = (params) => {
+  const navPage = params.navPage;
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid justify-content-between">
-
         <div className="d-flex">
           <a
             className="navbar-brand me-2 mb-1 d-flex align-items-center"
@@ -16,52 +22,63 @@ const Navbar = (isContact) => {
             <img src={logo} height="30" />
           </a>
 
-          <div class="collapse navbar-collapse ms-5 me-3 border h-20 w-25 rounded" id="navbarNavDarkDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDarkDropdownMenuLink"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {"Dropdown "}
+          <Dropdown className="mt-1 ms-4">
+            <Dropdown.Toggle variant="light" id="dropdown-basic">
+              <a
+                className="text-muted text-decoration-none"
+                id="navbarDarkDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {navPage == "home" ? (
+                  <HomeToggle />
+                ) : navPage == "addPost" ? (
+                  <AddPostToggle />
+                ) : navPage == "userSetting" ? (
+                  <SettingToggle />
+                ) : (
+                  ""
+                )}
+              </a>
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link className="text-muted text-decoration-none" to="/">
+                  {" Home "}
                   <span>
-                    <i className="fas fa-home fa-lg"></i>
+                    <i className="fas fa-home fa-lg ms-6"></i>
                   </span>
-                </a>
-                <ul
-                  class="dropdown-menu dropdown-menu-dark"
-                  aria-labelledby="navbarDarkDropdownMenuLink"
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link
+                  className="text-muted text-decoration-none"
+                  to="/userSettings"
                 >
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+                  {"user settings "}
+                  <span>
+                    <i className="fas fa-cog fa-lg ms-2"></i>
+                  </span>
+                </Link>
+              </Dropdown.Item>
+
+              <Dropdown.Item>
+                <Link className="text-muted text-decoration-none" to="/addPost">
+                  {"add new post "}
+                  <span>
+                    <i class="fas fa-plus ms-1"></i>
+                  </span>
+                </Link>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
 
           <SearchInput />
-
         </div>
 
         <NavList />
-        
       </div>
     </nav>
   );
