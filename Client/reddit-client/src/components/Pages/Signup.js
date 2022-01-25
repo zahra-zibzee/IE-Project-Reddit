@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import image from "./../../assets/media/signup.jpg";
 import { Link } from "react-router-dom";
 import PasswordField from "../Layouts/PasswordField";
@@ -7,7 +7,37 @@ const Signup = () => {
   const userError = "";
   const passError = "";
   const emailError = "";
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState("");
+
+  const getPassword = (pass) => setPassword(pass);
   document.body.style.backgroundColor = "white";
+
+  const register = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password,
+      }),
+    };
+
+    console.log("here");
+
+    fetch("https://localhost:4000/users/signup", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data.user);
+        setToken(data.token);
+        console.log(user);
+        console.log(token);
+      });
+  };
 
   return (
     <div className="container">
@@ -43,6 +73,8 @@ const Signup = () => {
                   id="loginEmail"
                   type="email"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="form-control form-control-md"
                   data-empty="true"
                 />
@@ -54,6 +86,8 @@ const Signup = () => {
                   id="loginUsername"
                   type="text"
                   name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="form-control form-control-md"
                   data-empty="true"
                 />
@@ -61,11 +95,11 @@ const Signup = () => {
               </fieldset>
 
               <fieldset className="login-fieldset">
-                <PasswordField />
+                <PasswordField getPassowrd={getPassword}/>
                 {passError && <p className="error">{passError}</p>}
               </fieldset>
 
-              <button className="btn btn-primary" type="submit">
+              <button type="button" className="btn btn-primary" onClick={() => register()}>
                 Register
               </button>
 
