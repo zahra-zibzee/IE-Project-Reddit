@@ -70,7 +70,7 @@ const PostItem = () => {
 
   return (
     <>
-      <div className="container bg-white border border-light rounded row mt-0 pt-4">
+      <div className="container bg-white border border-secondary rounded row pt-4">
         <div className="col-1 pt-4">
           <div className="row">
             <img height="20" src={up_} onClick={() => like()}></img>
@@ -100,7 +100,7 @@ const PostItem = () => {
             <div className="col mt-1">
               <p className="text-muted f-smaller">
                 Posted by{" "}
-                <Link className="text-decoration-none text-dark" to="/profile">
+                <Link className="text-decoration-none text-dark" to="/user">
                   {username}
                 </Link>
                 {" " + postTime}
@@ -109,7 +109,7 @@ const PostItem = () => {
           </div>
 
           <div className="row mt-2">
-            <h4>{title}</h4>
+            <Link to="/post" className="text-decoration-none text-dark"><h4>{title}</h4></Link>
           </div>
 
           {postType == 1 ? (
@@ -125,7 +125,7 @@ const PostItem = () => {
               <i className="far fa-comment fs-6 me-1"></i>
               {" " + commentCount + " "}Comments
             </div>
-            <div className="btn col text-muted f-smaller fw-bold">
+            <div className="btn col text-muted f-smaller fw-bold" onClick={() => setSaved(!saved)}>
               {saved ? (
                 <i className="far fa-bookmark fs-6 me-1"></i>
               ) : (

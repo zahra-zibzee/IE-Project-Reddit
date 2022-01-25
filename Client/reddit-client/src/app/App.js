@@ -5,13 +5,15 @@ import Login from "../components/Pages/Login";
 import Signup from "../components/Pages/Signup";
 import AddNewPost from "../components/Pages/Post/AddNewPost";
 import UserSettings from "../components/Pages/Setting/UserSettings";
+import UserProfile from "../components/Pages/Profile/UserProfile";
+import Community from "../components/Pages/Profile/Community";
 import Post from "../components/Pages/Post/Post";
 
 function App() {
   const login = true;
 
   const init_component = login ? Home : Login;
-  
+
   return (
     <div className="App" id="App">
       <Router>
@@ -21,19 +23,11 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <Route exact path={"/addPost"} component={AddNewPost} />
           <Route exact path={"/userSettings"} component={UserSettings} />
-          <Route path="/post" component={Post} />
-          {/* <Route exact path="/r/:display_name/" component={Subreddit} />
-          
-          <Route exact path="/r/:currentSubreddit/hot" component={Hot} />
-          <Route exact path="/r/:currentSubreddit/top" component={Top} />
-          <Route exact path="/r/:currentSubreddit/new" component={New} />
-          <Route path="/results" component={Results} />
-          <Route exact path="/bookmarks" component={Bookmarks} />
-          <Route path="/contact" component={Contact} />
-          <Route component={NotFound} /> */}
+          <Route exact path="/post" component={Post} />
+          <Route exact path="/user" component={UserProfile} />
+          <Route exact path="/community" component={Community} />
         </Switch>
       </Router>
-      {/* <SiteFooter /> */}
     </div>
   );
 }

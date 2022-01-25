@@ -27,10 +27,10 @@ const NavList = () => {
         </li>
 
         <li className="nav-item me-3 me-lg-1">
-          <div className="nav-link d-sm-flex align-items-sm-center" href="#">
+          <Link className="nav-link d-sm-flex align-items-sm-center" to="/user">
             <img src={avatar} className="rounded" height="40" alt="avatar" />
             <strong className="d-none d-sm-block ms-1">John</strong>
-          </div>
+          </Link>
         </li>
       </ul>
     </>

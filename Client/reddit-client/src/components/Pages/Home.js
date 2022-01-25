@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../Searchbar/Navbar";
 import { Link } from "react-router-dom";
 import avatar from "../../assets/media/avatar.jpg";
+import newIcon from "../../assets/media/new.png";
+import upVote from "../../assets/media/up-vote.png";
+import commentIcon from "../../assets/media/comment.png";
+
 import PostItem from "./Post/PostItem";
+import CommunityList from "../Layouts/CommunityList";
+import { ButtonGroup, Button } from "react-bootstrap";
 
 const Home = () => {
   document.body.style.backgroundColor = "rgba(172, 183, 185, 0.568)";
   const posts = ["", " ", "  ", "   "];
+  const topCommunities = ["com1", "com2", "com3", "com4", "com5"];
+
+  //1 for newest
+  //2 for most commented
+  //3 for most liked
+  const [listMode, setListMode] = useState(1);
+
   return (
     <main className="dark page">
       <Navbar navPage="home" />
@@ -29,16 +42,47 @@ const Home = () => {
           </div>
 
           <div className="container bg-white border border-light rounded mt-0 mb-4">
-            filter posts
+            <ButtonGroup aria-label="Basic example" className="w-100">
+              <Button
+                variant="light"
+                className={
+                  listMode == 1 ? "text-muted active-btn p-3" : "text-muted p-3"
+                }
+                onClick={() => setListMode(1)}
+              >
+                <img src={newIcon} width="30" />
+                {" Newest"}
+              </Button>
+              <Button
+                variant="light"
+                className={
+                  listMode == 2 ? "text-muted active-btn p-1" : "text-muted p-1"
+                }
+                onClick={() => setListMode(2)}
+              >
+                <img src={commentIcon} width="30" />
+                {" Most Commented"}
+              </Button>
+              <Button
+                variant="light"
+                className={
+                  listMode == 3 ? "text-muted active-btn p-3" : "text-muted p-3"
+                }
+                onClick={() => setListMode(3)}
+              >
+                <img src={upVote} width="50" />
+                {" Most Liked"}
+              </Button>
+            </ButtonGroup>
           </div>
 
-          {
-            posts.map(post => {
-              return <PostItem />
-            })
-          }
+          {posts.map((post) => {
+            return <PostItem />;
+          })}
         </div>
-        <div className="col-3"></div>
+        <div className="col-3">
+          <CommunityList topCommunities={topCommunities} />
+        </div>
         <div className="col-2"></div>
       </div>
     </main>

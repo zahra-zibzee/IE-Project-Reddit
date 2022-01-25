@@ -149,7 +149,7 @@ const Post = () => {
                           Posted by{" "}
                           <Link
                             className="text-decoration-none text-dark"
-                            to="/profile"
+                            to="/user"
                           >
                             {username}
                           </Link>
