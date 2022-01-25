@@ -219,3 +219,7 @@
 .bg-light-gray {
   background-color: rgba(221, 242, 246, 0.568);
 }
+
+.border-light {
+  border-color: rgb(177, 177, 177) !important;
+}
