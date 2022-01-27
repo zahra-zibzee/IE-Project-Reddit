@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import image from "./../../assets/media/signup.jpg";
 import { Link, withRouter } from "react-router-dom";
 import PasswordField from "../Layouts/PasswordField";
+import axios from "axios";
 
 const Signup = ({ history }) => {
-  const userError = "";
-  const passError = "";
-  const emailError = "";
+  const [userError, setUserError] = useState("");
+  const [passError, setPassError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -17,33 +18,48 @@ const Signup = ({ history }) => {
   document.body.style.backgroundColor = "white";
 
   const register = () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-      }),
+    if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+      setEmailError("invalid email address!");
+      return;
+    } else setEmailError("");
+
+    if (password.length < 8 && password != "") {
+      setPassError("password must be at least 8 characters!");
+      return;
+    } else setPassError("");
+
+    if (!email) {
+      setEmailError("please enter email!");
+      return;
+    } else setEmailError("");
+
+    if (!username) {
+      setUserError("please enter username!");
+      return;
+    } else setUserError("");
+
+    if (!password) {
+      setPassError("please enter password!");
+      return;
+    } else setPassError("");
+
+    const user = {
+      username: username,
+      email: email,
+      password: password,
     };
 
-    fetch("http://localhost:3000/users/signup", requestOptions)
-      .then((response) => {
-        if (!response.ok) {
-          console.log(response.statusText);
-          console.log(response.response);
-        }
-        return response.json();
+    axios
+      .post("http://localhost:3000/users/signup", user)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        history.push({
+          pathname: "/",
+          state: { user: res.data.user },
+        });
       })
-      .then(
-        (data) => {
-          localStorage.setItem("token", data.token);
-          history.push({
-            pathname: "/",
-            state: { user: data.user },
-          });
-        }
-      )
+      .catch((err) => setUserError(err.response.data));
+
   };
 
   return (

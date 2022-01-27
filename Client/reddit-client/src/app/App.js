@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "../components/Pages/Home";
 import Login from "../components/Pages/Login";
@@ -9,10 +9,16 @@ import UserProfile from "../components/Pages/Profile/UserProfile";
 import Community from "../components/Pages/Profile/Community";
 import Post from "../components/Pages/Post/Post";
 
-function App() {
-  const login = true;
+function App({history}) {
 
-  const init_component = login ? Home : Login;
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      history.push({
+        pathname: "/login"
+      });
+    } 
+  }, [])
+
 
   return (
     <div className="App" id="App">

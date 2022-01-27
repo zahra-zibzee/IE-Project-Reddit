@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import image from "./../../assets/media/login.jpg";
 import { Link } from "react-router-dom";
 import PasswordField from "../Layouts/PasswordField";
+import axios from "axios";
 
-const Login = ({history}) => {
-  const userError = "";
-  const passError = "";
+const Login = ({ history }) => {
+  const [userError, setUserError] = useState("");
+  const [passError, setPassError] = useState("");
 
   document.body.style.backgroundColor = "white";
 
@@ -15,26 +16,34 @@ const Login = ({history}) => {
   const getPassword = (pass) => setPassword(pass);
 
   const login = () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
+    if (!username) {
+      setUserError("please enter username!");
+      return;
+    } else setUserError("");
+
+    if (!password) {
+      setPassError("please enter password!");
+      return;
+    } else setPassError("");
+
+    const user = {
+      username: username,
+      password: password,
     };
 
-    fetch("http://localhost:3000/users/signin", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem("token", data.token);
+    axios
+      .post("http://localhost:3000/users/signin", user)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
         history.push({
           pathname: "/",
-          state: { user: data.user },
+          state: { user: res.data.user },
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        if (err.response.data == "User with this username was not found")
+          setUserError(err.response.data);
+        else setPassError(err.response.data);
       });
   };
 
@@ -80,7 +89,11 @@ const Login = ({history}) => {
                 {passError && <p className="error">{passError}</p>}
               </fieldset>
 
-              <button className="btn btn-primary" type="button" onClick={() => login()}>
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={() => login()}
+              >
                 Log In
               </button>
 

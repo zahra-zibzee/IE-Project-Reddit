@@ -24,16 +24,6 @@ const NavList = (params) => {
           </Link>
         </li>
 
-        <li className="mt-2">
-          <BootstrapSwitchButton
-            checked={true}
-            width={75}
-            onstyle="dark"
-            onlabel="Night"
-            offlabel="Light"
-          />
-        </li>
-
         <li className="nav-item me-3 me-lg-1">
           <Link
             className="nav-link d-sm-flex align-items-sm-center"
@@ -46,6 +36,20 @@ const NavList = (params) => {
             <strong className="d-none d-sm-block ms-1">
               {!!user ? user.username : "john"}
             </strong>
+          </Link>
+        </li>
+
+        <li className="nav-item me-3 me-lg-1 mt-2">
+          <Link
+            className="nav-link"
+            to={{
+              pathname: "/login"
+            }}
+          >
+            {"logout "}
+            <span>
+              <i className="fas fa-sign-out-alt"></i>
+            </span>
           </Link>
         </li>
       </ul>
