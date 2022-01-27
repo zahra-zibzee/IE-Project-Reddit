@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 
 const ProfileInfoBox = (params) => {
   const type = params.type;
-  const name = "world news";
-  const about =
-    "A place for major news from around the world, excluding US-internal news.";
-  const memberCount = 650;
+  const user = params.user;
+  const community = params.community;
+
+
+  const name = type == 'user' ? user.username : community.name;
+  const about = type == 'user' ? user.about : community.about;
+  const memberCount = type == 'user' ? 20 : community.members.length;
+
   const [followsJoined, setFollowsJoined] = useState(false);
 
   return (

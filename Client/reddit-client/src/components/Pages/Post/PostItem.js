@@ -129,7 +129,7 @@ const PostItem = () => {
               {saved ? (
                 <i className="far fa-bookmark fs-6 me-1"></i>
               ) : (
-                <i class="fas fa-bookmark fs-6 me-1"></i>
+                <i className="fas fa-bookmark fs-6 me-1"></i>
               )}{" "}
               Save
             </div>

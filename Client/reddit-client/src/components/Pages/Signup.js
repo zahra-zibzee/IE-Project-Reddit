@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import image from "./../../assets/media/signup.jpg";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import PasswordField from "../Layouts/PasswordField";
 
-const Signup = () => {
+const Signup = ({ history }) => {
   const userError = "";
   const passError = "";
   const emailError = "";
+
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState("");
 
   const getPassword = (pass) => setPassword(pass);
+
   document.body.style.backgroundColor = "white";
 
   const register = () => {
@@ -27,16 +27,23 @@ const Signup = () => {
       }),
     };
 
-    console.log("here");
-
-    fetch("https://localhost:4000/users/signup", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data.user);
-        setToken(data.token);
-        console.log(user);
-        console.log(token);
-      });
+    fetch("http://localhost:3000/users/signup", requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          console.log(response.statusText);
+          console.log(response.response);
+        }
+        return response.json();
+      })
+      .then(
+        (data) => {
+          localStorage.setItem("token", data.token);
+          history.push({
+            pathname: "/",
+            state: { user: data.user },
+          });
+        }
+      )
   };
 
   return (
@@ -95,17 +102,21 @@ const Signup = () => {
               </fieldset>
 
               <fieldset className="login-fieldset">
-                <PasswordField getPassowrd={getPassword}/>
+                <PasswordField getPassowrd={getPassword} />
                 {passError && <p className="error">{passError}</p>}
               </fieldset>
 
-              <button type="button" className="btn btn-primary" onClick={() => register()}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => register()}
+              >
                 Register
               </button>
 
               <div>
                 {"Already a Redditor? "}
-                <Link className="login-link" to="/">
+                <Link className="login-link" to="/login">
                   LOG IN
                 </Link>
               </div>
@@ -117,4 +128,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default withRouter(Signup);

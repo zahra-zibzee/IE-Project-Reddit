@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ColoredLine from "../../Layouts/ColoredLine";
 import { Dropdown, Modal, Button } from "react-bootstrap";
 import email from "./../../../assets/media/mail.png";
 import pass from "./../../../assets/media/password.png";
 import PasswordField from "../../Layouts/PasswordField";
 
-const AccountSetting = () => {
+const AccountSetting = (params) => {
   const [genderValue, setGenderValue] = useState("select");
   const [showEmail, setShowEmail] = useState(false);
   const [showPass, setShowPass] = useState(false);
+
+  const user = params.user;
+
+  useEffect(() => {setGenderValue(user.gender)}, [])
 
   return (
     <>
@@ -19,7 +23,7 @@ const AccountSetting = () => {
       <div className="row mt-5">
         <div className="col-8">
           <h5>Email Address</h5>
-          <p className="f-small text-muted">niloo.ast@gmail.com</p>
+          <p className="f-small text-muted">{user.email}</p>
         </div>
         <div className="col-4">
           <Button

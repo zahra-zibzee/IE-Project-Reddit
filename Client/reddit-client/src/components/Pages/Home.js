@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Searchbar/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import avatar from "../../assets/media/avatar.jpg";
 import newIcon from "../../assets/media/new.png";
 import upVote from "../../assets/media/up-vote.png";
@@ -19,15 +19,28 @@ const Home = () => {
   //2 for most commented
   //3 for most liked
   const [listMode, setListMode] = useState(1);
+  const [user, setUser] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    setUser(location.state.user);
+  }, [location]);
 
   return (
     <main className="dark page">
-      <Navbar navPage="home" />
+      <Navbar navPage="home" user={user} />
       <div className="row">
         <div className="col-2"></div>
         <div className="col-5">
           <div className="container bg-white rounded border border-light p-4 mb-4 mt-3">
-            <Link to="/addPost" className="text-decoration-none row">
+            <Link
+              to="/addPost"
+              className="text-decoration-none row"
+              to={{
+                pathname: "/addPost",
+                state: { user: user },
+              }}
+            >
               <img
                 src={avatar}
                 width="50"
@@ -36,7 +49,7 @@ const Home = () => {
               <input
                 type="text"
                 className="form-control col bg-light"
-                placeHolder="Create New Post"
+                placeholder="Create New Post"
               />
             </Link>
           </div>

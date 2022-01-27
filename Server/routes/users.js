@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const userAuth = require('../middleware/userAuth');
 const { Community } = require('../models/community');
+require("dotenv").config();
 
 
 //in sign up we don't make any access tokens, just in sign in we do.
@@ -156,6 +157,15 @@ router.get('/profile', userAuth, async(req, res) => {
 router.put('/changeAbout', userAuth, async(req, res) => {
     await User.findOneAndUpdate({username: req.user.username}, {about: req.body.about});
     res.sendStatus(201);
+})
+
+//get user by token
+router.get('/getUser', userAuth, async(req, res) => {
+    const user = await User.findOne({ username: req.user.username})
+    res.setHeader('authorization', req.headers['authorization'])
+    res.status(200).json({
+        user
+    })
 })
 
 

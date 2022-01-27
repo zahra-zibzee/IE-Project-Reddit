@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ColoredLine from "../../Layouts/ColoredLine";
 import Navbar from "../../Searchbar/Navbar";
 import PostGuide from "./PostGuide";
 import { Dropdown, ButtonGroup, Button } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import RichtextEditor from "../../Layouts/RichTextEditor";
 import UploadImage from "../../Layouts/UploadImage";
 import LinkArea from "../../Layouts/LinkArea";
@@ -10,10 +11,29 @@ import LinkArea from "../../Layouts/LinkArea";
 const AddNewPost = () => {
   const [postMode, setPostMode] = useState(1);
   // 1: post    2: image & video   3: link
+
+  const location = useLocation();
+  const { user } = location.state;
+
+  const [communityList, setCommunityList] = useState(['1', '2']);
+
+  useEffect(() => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+
+    fetch("http://localhost:3000/communities", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setCommunityList(data);
+      });
+  }, []);
+
   return (
     <>
       <main className="dark">
-        <Navbar navPage="addPost" />
+        <Navbar navPage="addPost" user={user} />
         <div className="row mt-5">
           <div className="col-2"></div>
           <div className="col-5">
@@ -26,9 +46,9 @@ const AddNewPost = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#">Action</Dropdown.Item>
-                <Dropdown.Item href="#">Another action</Dropdown.Item>
-                <Dropdown.Item href="#">Something else</Dropdown.Item>
+                {communityList.map((community) => {
+                  return <Dropdown.Item>{community}</Dropdown.Item>;
+                })}
               </Dropdown.Menu>
             </Dropdown>
 
@@ -74,12 +94,23 @@ const AddNewPost = () => {
 
               <div className="p-4">
                 <form>
-                  <input type="text" className="form-control mb-3" placeholder="Title">
-                  </input>
+                  <input
+                    type="text"
+                    className="form-control mb-3"
+                    placeholder="Title"
+                  ></input>
 
-                  { postMode == 1 ?  <RichtextEditor /> : postMode == 2 ? <UploadImage /> : <LinkArea />}
+                  {postMode == 1 ? (
+                    <RichtextEditor />
+                  ) : postMode == 2 ? (
+                    <UploadImage />
+                  ) : (
+                    <LinkArea />
+                  )}
 
-                  <button className="btn btn-primary rounded-pill d-flex">POST</button>
+                  <button className="btn btn-primary rounded-pill d-flex">
+                    POST
+                  </button>
                 </form>
               </div>
             </div>

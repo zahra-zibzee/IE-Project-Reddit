@@ -10,6 +10,7 @@ import SettingToggle from "../Layouts/SettingToggle";
 
 const Navbar = (params) => {
   const navPage = params.navPage;
+  const user = params.user;
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -45,7 +46,13 @@ const Navbar = (params) => {
 
             <Dropdown.Menu>
               <Dropdown.Item>
-                <Link className="text-muted text-decoration-none" to="/">
+                <Link
+                  className="text-muted text-decoration-none"
+                  to={{
+                    pathname: "/",
+                    state: { user: user },
+                  }}
+                >
                   {" Home "}
                   <span>
                     <i className="fas fa-home fa-lg ms-6"></i>
@@ -55,7 +62,10 @@ const Navbar = (params) => {
               <Dropdown.Item>
                 <Link
                   className="text-muted text-decoration-none"
-                  to="/userSettings"
+                  to={{
+                    pathname: "/userSettings",
+                    state: { user: user },
+                  }}
                 >
                   {"user settings "}
                   <span>
@@ -65,10 +75,16 @@ const Navbar = (params) => {
               </Dropdown.Item>
 
               <Dropdown.Item>
-                <Link className="text-muted text-decoration-none" to="/addPost">
+                <Link
+                  className="text-muted text-decoration-none"
+                  to={{
+                    pathname: "/addPost",
+                    state: { user: user },
+                  }}
+                >
                   {"add new post "}
                   <span>
-                    <i class="fas fa-plus ms-1"></i>
+                    <i className="fas fa-plus ms-1"></i>
                   </span>
                 </Link>
               </Dropdown.Item>
@@ -78,7 +94,7 @@ const Navbar = (params) => {
           <SearchInput />
         </div>
 
-        <NavList />
+        <NavList user={user} />
       </div>
     </nav>
   );

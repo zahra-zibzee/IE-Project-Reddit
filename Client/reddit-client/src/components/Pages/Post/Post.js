@@ -98,7 +98,7 @@ const Post = () => {
             </div>
             <div className="col-8"></div>
             <Link className="col-2 text-white text-decoration-none" to="/">
-              <i class="fa fa-times" aria-hidden="true"></i>
+              <i className="fa fa-times" aria-hidden="true"></i>
               {" close "}
             </Link>
           </div>
@@ -185,7 +185,7 @@ const Post = () => {
                         {saved ? (
                           <i className="far fa-bookmark fs-6 me-1"></i>
                         ) : (
-                          <i class="fas fa-bookmark fs-6 me-1"></i>
+                          <i className="fas fa-bookmark fs-6 me-1"></i>
                         )}{" "}
                         Save
                       </div>

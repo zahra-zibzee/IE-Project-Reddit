@@ -3,10 +3,40 @@ import image from "./../../assets/media/login.jpg";
 import { Link } from "react-router-dom";
 import PasswordField from "../Layouts/PasswordField";
 
-const Login = () => {
+const Login = ({history}) => {
   const userError = "";
   const passError = "";
+
   document.body.style.backgroundColor = "white";
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const getPassword = (pass) => setPassword(pass);
+
+  const login = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    };
+
+    fetch("http://localhost:3000/users/signin", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem("token", data.token);
+        history.push({
+          pathname: "/",
+          state: { user: data.user },
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="container">
@@ -37,6 +67,8 @@ const Login = () => {
                   id="loginUsername"
                   type="text"
                   name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   className="form-control form-control-md"
                   data-empty="true"
                 />
@@ -44,11 +76,11 @@ const Login = () => {
               </fieldset>
 
               <fieldset className="login-fieldset">
-                <PasswordField />
+                <PasswordField getPassowrd={getPassword} />
                 {passError && <p className="error">{passError}</p>}
               </fieldset>
 
-              <button className="btn btn-primary" type="submit">
+              <button className="btn btn-primary" type="button" onClick={() => login()}>
                 Log In
               </button>
 
