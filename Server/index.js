@@ -24,9 +24,9 @@ server.use(function (req, res, next) {
 const usersRoutes = require("./routes/users");
 const communitiesRoutes = require("./routes/communities");
 const postsRoutes = require("./routes/posts");
+const commentsRoutes = require("./routes/comments");
 
 server.use((req, res, next) => {
-  console.log("yechizi");
   // res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
 
   res.header("Access-Control-Allow-Origin", "*");
@@ -44,6 +44,7 @@ server.use((req, res, next) => {
 server.use("/users", usersRoutes);
 server.use("/communities", communitiesRoutes);
 server.use("/posts", postsRoutes);
+server.use("/comments", commentsRoutes);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server is running at port ${PORT}`));

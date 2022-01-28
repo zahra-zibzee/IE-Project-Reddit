@@ -19,6 +19,7 @@ const PasswordField = ({ getPassowrd }) => {
         onChange={(e) => updatePass(e.target.value)}
         onMouseEnter={() => setPasswordShown(true)}
         onMouseLeave={() => setPasswordShown(false)}
+        value={pass}
         required=""
       />
     </>

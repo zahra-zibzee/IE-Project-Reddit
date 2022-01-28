@@ -9,10 +9,11 @@ import commentIcon from "../../assets/media/comment.png";
 import PostItem from "./Post/PostItem";
 import CommunityList from "../Layouts/CommunityList";
 import { ButtonGroup, Button } from "react-bootstrap";
+import axios from "axios";
 
 const Home = () => {
   document.body.style.backgroundColor = "rgba(172, 183, 185, 0.568)";
-  const posts = ["", " ", "  ", "   "];
+  const [posts, setPosts] = useState([]);
   const topCommunities = ["com1", "com2", "com3", "com4", "com5"];
 
   //1 for newest
@@ -22,8 +23,25 @@ const Home = () => {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
+  const fetchRecentPosts = () => {
+    const body = {
+      authorization: localStorage.getItem("token"),
+    };
+    axios
+      .post("http://localhost:3000/users/recentPosts", body)
+      .then((res) => {
+        setPosts(res.data.recentPosts);
+      })
+      .catch((err) => {
+        if (err.response.data == "User with this username was not found")
+          setUserError(err.response.data);
+        else setPassError(err.response.data);
+      });
+  };
+
   useEffect(() => {
     setUser(location.state.user);
+    fetchRecentPosts();
   }, [location]);
 
   return (
@@ -89,8 +107,8 @@ const Home = () => {
             </ButtonGroup>
           </div>
 
-          {posts.map((post) => {
-            return <PostItem />;
+          {posts.map((post, index) => {
+            return <PostItem key={index} post={post} />;
           })}
         </div>
         <div className="col-3">

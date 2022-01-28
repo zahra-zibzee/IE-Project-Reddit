@@ -8,9 +8,9 @@ const ProfileInfoBox = (params) => {
   const community = params.community;
 
 
-  const name = type == 'user' ? user.username : community.name;
-  const about = type == 'user' ? user.about : community.about;
-  const memberCount = type == 'user' ? 20 : community.members.length;
+  const name = type == 'user' ? user.username : "community.name";
+  const about = type == 'user' ? user.about : "community.about";
+  const memberCount = type == 'user' ? 20 : "community.members.length";
 
   const [followsJoined, setFollowsJoined] = useState(false);
 

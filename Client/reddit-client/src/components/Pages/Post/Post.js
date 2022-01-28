@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../Searchbar/Navbar";
 import TextPost from "./TextPost";
 import LinkPost from "./LinkPost";
 import MediaPost from "./MediaPost";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import up from "../../../assets/media/up.png";
 import down from "../../../assets/media/down.png";
 import up_fill from "../../../assets/media/up-fill.png";
@@ -15,8 +15,15 @@ import CommunityRules from "../Profile/CommunityRules";
 import { Modal, Button } from "react-bootstrap";
 import RichtextEditor from "../../Layouts/RichTextEditor";
 import Comment from "./Comment";
+import axios from "axios";
 
 const Post = () => {
+  const location = useLocation();
+  const { user, currentPost } = location.state;
+
+  const [post, setPost] = useState(currentPost);
+  console.log(post.comment_ids);
+
   document.body.style.backgroundColor = "#4B4746";
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
@@ -27,25 +34,16 @@ const Post = () => {
   const [saved, setSaved] = useState(false);
   const [showAddComment, setShowAddComment] = useState(false);
 
-  const [likeCount, setLikeCount] = useState(234);
-  const communityName = "world news";
-  const username = "nanami";
-  const currentUser = "nili";
-  const title =
-    "this is a test title which will be filled with real title later :D";
-  const commentCount = 73;
+  const [likeCount, setLikeCount] = useState(0);
+  const [newComment, setNewComment] = useState("");
+
   const rules = ["first rule.", "second rule.", "forth rule.", "fifth rule."];
-  const comments = ["", " ", "  ", "    "];
 
   //1 for text
   //2 for image/video
   //3 for link
-  const postType = 1;
-  const postText =
-    "this is a test text for my test post ^___^ blah blah meow meow blah blah meow meow blah blah meow meow blah blah meow meow blah blah";
+
   const postMedia = "i don't know how to handle media yet!";
-  const postLink = "https://google.com";
-  const postTime = "4:40 tuesday 13 march 2021";
 
   const like = () => {
     if (liked) {
@@ -77,9 +75,37 @@ const Post = () => {
     }
   };
 
+  const comment = () => {
+    addComment();
+    setShowAddComment(false);
+    setNewComment("");
+  };
+
+  const getText = (nc) => setNewComment(nc);
+
+  const addComment = () => {
+    const body = {
+      authorization: localStorage.getItem("token"),
+      postId: post._id,
+      text: newComment,
+    };
+
+    axios
+      .post("http://localhost:3000/comments/createComment", body)
+      .then((res) => {
+        setPost(res.data);
+      })
+      .catch((err) => console.log(err.response.data));
+  };
+
+  useEffect(() => {
+    setLikeCount(post.likes.length - post.dislikes.length);
+  }, []);
+
   return (
     <>
-      <Navbar navPage="home" />
+      <Navbar navPage="home" user={user} />
+
       <div className="row">
         <div className="col-2"></div>
         <div className="col-8">
@@ -97,7 +123,13 @@ const Post = () => {
               </div>
             </div>
             <div className="col-8"></div>
-            <Link className="col-2 text-white text-decoration-none" to="/">
+            <Link
+              className="col-2 text-white text-decoration-none"
+              to={{
+                pathname: "/",
+                state: { user: user },
+              }}
+            >
               <i className="fa fa-times" aria-hidden="true"></i>
               {" close "}
             </Link>
@@ -141,7 +173,9 @@ const Post = () => {
                           className="f-small fw-bold text-decoration-none text-dark"
                           to="/community"
                         >
-                          {communityName}
+                          {!!post.community_name
+                            ? post.community_name
+                            : "bi pedar madar"}
                         </Link>
                       </div>
                       <div className="col mt-1">
@@ -151,23 +185,36 @@ const Post = () => {
                             className="text-decoration-none text-dark"
                             to="/user"
                           >
-                            {username}
+                            {post.user_name}
                           </Link>
-                          {" " + postTime}
+                          {
+                            " " + post.created_date
+                            // post.created_date.getFullYear() +
+                            // "-" +
+                            // (post.created_date.getMonth() + 1) +
+                            // "-" +
+                            // post.created_date.getDate() +
+                            // " " +
+                            // post.created_date.getHours() +
+                            // ":" +
+                            // post.created_date.getMinutes() +
+                            // ":" +
+                            // post.created_date.getSeconds()
+                          }
                         </p>
                       </div>
                     </div>
 
                     <div className="row mt-2">
-                      <h4>{title}</h4>
+                      <h4>{post.title}</h4>
                     </div>
 
-                    {postType == 1 ? (
-                      <TextPost text={postText} />
-                    ) : postType == 2 ? (
+                    {post.post_type == "post" ? (
+                      <TextPost text={post.text} />
+                    ) : post.post_type == "image-video" ? (
                       <MediaPost media={postMedia} />
                     ) : (
-                      <LinkPost link={postLink} />
+                      <LinkPost link={post.text} />
                     )}
 
                     <div className="row container">
@@ -176,7 +223,7 @@ const Post = () => {
                           className="far fa-comment fs-6 me-1"
                           onClick={() => setShowAddComment(true)}
                         ></i>
-                        {" " + commentCount + " "}Comments
+                        {" " + post.comment_ids.length + " "}Comments
                       </div>
                       <div
                         className="btn col text-muted f-smaller fw-bold"
@@ -196,33 +243,31 @@ const Post = () => {
                       onHide={() => setShowAddComment(false)}
                     >
                       <Modal.Header closeButton>
-                        <Modal.Title>comment as {currentUser}</Modal.Title>
+                        <Modal.Title>comment as {user.username}</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <RichtextEditor />
+                        <RichtextEditor getText={getText} />
                       </Modal.Body>
                       <Modal.Footer>
                         <Button
                           variant="outline-primary"
                           className="rounded-pill"
-                          onClick={() => setShowAddComment(false)}
+                          onClick={() => comment()}
                         >
                           comment
                         </Button>
                       </Modal.Footer>
                     </Modal>
-
-                    
-                  </div>{comments.map((comment) => {
-                      return (
-                        <>
-                          <div className="row">
-                            <Comment />
-                          </div>
-                        </>
-                      );
-                    })}
-
+                  </div>
+                  {post.comment_ids.map((comment) => {
+                    return (
+                      <>
+                        <div className="row">
+                          <Comment commentId={comment} />
+                        </div>
+                      </>
+                    );
+                  })}
                 </div>
               </div>
             </div>

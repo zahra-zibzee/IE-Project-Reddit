@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     },
     posts:[String],
     saved_posts:[String],
-    community_ids:[String],
+    community_names:[String],
 });
 
 module.exports = mongoose.model('User', userSchema); 

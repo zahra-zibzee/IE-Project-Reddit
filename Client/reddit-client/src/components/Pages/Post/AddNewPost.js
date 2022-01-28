@@ -7,27 +7,69 @@ import { useLocation } from "react-router-dom";
 import RichtextEditor from "../../Layouts/RichTextEditor";
 import UploadImage from "../../Layouts/UploadImage";
 import LinkArea from "../../Layouts/LinkArea";
+import axios from "axios";
 
-const AddNewPost = () => {
-  const [postMode, setPostMode] = useState(1);
-  // 1: post    2: image & video   3: link
+const AddNewPost = ({ history }) => {
+  const [postMode, setPostMode] = useState("post");
+  // "post": post    "image-video": image & video   "link": link
 
   const location = useLocation();
   const { user } = location.state;
 
-  const [communityList, setCommunityList] = useState(['1', '2']);
+  const [communityList, setCommunityList] = useState([]);
+  const [community, setCommunity] = useState(null);
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
+  const [text, setText] = useState("");
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
+  const getLink = (l) => setLink(l);
+  const getText = (t) => setText(t);
+
+  const post = (event) => {
+    if (title == "") {
+      setError("title cannot be empty!");
+      event.preventDefault();
+      return;
+    } else setError("");
+
+    if (postMode == "post" && text == "") {
+      setError("post body cannot be empty!");
+      event.preventDefault();
+      return;
+    } else setError("");
+
+    if (postMode == "link" && link == "") {
+      setError("post url cannot be empty!");
+      event.preventDefault();
+      return;
+    } else setError("");
+
+    event.preventDefault();
+
+    const p = {
+      authorization: localStorage.getItem("token"),
+      communityName: community,
+      post_type: postMode,
+      title: title,
+      text: postMode == "post" ? text : link,
+      user_id: user._id,
     };
 
-    fetch("http://localhost:3000/communities", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        setCommunityList(data);
-      });
+    axios
+      .post("http://localhost:3000/posts/createPost", p)
+      .then((res) => {
+        console.log(res.data);
+        history.push({
+          pathname: "/",
+          state: { user: res.data },
+        });
+      })
+      .catch((err) => setError(err.response.data));
+  };
+
+  useEffect(() => {
+    setCommunityList(user.community_names);
   }, []);
 
   return (
@@ -46,9 +88,14 @@ const AddNewPost = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                {communityList.map((community) => {
-                  return <Dropdown.Item>{community}</Dropdown.Item>;
-                })}
+                {!!communityList &&
+                  communityList.map((community) => {
+                    return (
+                      <Dropdown.Item onClick={() => setCommunity(community)}>
+                        {community}
+                      </Dropdown.Item>
+                    );
+                  })}
               </Dropdown.Menu>
             </Dropdown>
 
@@ -57,11 +104,11 @@ const AddNewPost = () => {
                 <Button
                   variant="light"
                   className={
-                    postMode == 1
+                    postMode == "post"
                       ? "text-muted active-btn p-3"
                       : "text-muted p-3"
                   }
-                  onClick={() => setPostMode(1)}
+                  onClick={() => setPostMode("post")}
                 >
                   <i className="fa fa-file-text" aria-hidden="true"></i>
                   {" Post"}
@@ -69,11 +116,11 @@ const AddNewPost = () => {
                 <Button
                   variant="light"
                   className={
-                    postMode == 2
+                    postMode == "image-video"
                       ? "text-muted active-btn p-1"
                       : "text-muted p-1"
                   }
-                  onClick={() => setPostMode(2)}
+                  onClick={() => setPostMode("image-video")}
                 >
                   <i className="fa fa-picture-o" aria-hidden="true"></i>
                   {" Image & Video"}
@@ -81,11 +128,11 @@ const AddNewPost = () => {
                 <Button
                   variant="light"
                   className={
-                    postMode == 3
+                    postMode == "link"
                       ? "text-muted active-btn p-3"
                       : "text-muted p-3"
                   }
-                  onClick={() => setPostMode(3)}
+                  onClick={() => setPostMode("link")}
                 >
                   <i className="fa fa-link" aria-hidden="true"></i>
                   {" Link"}
@@ -98,19 +145,25 @@ const AddNewPost = () => {
                     type="text"
                     className="form-control mb-3"
                     placeholder="Title"
+                    onChange={(e) => setTitle(e.target.value)}
+                    value={title}
                   ></input>
 
-                  {postMode == 1 ? (
-                    <RichtextEditor />
-                  ) : postMode == 2 ? (
+                  {postMode == "post" ? (
+                    <RichtextEditor getText={getText} />
+                  ) : postMode == "image-video" ? (
                     <UploadImage />
                   ) : (
-                    <LinkArea />
+                    <LinkArea getLink={getLink} />
                   )}
 
-                  <button className="btn btn-primary rounded-pill d-flex">
+                  <button
+                    className="btn btn-primary rounded-pill d-flex"
+                    onClick={(e) => post(e)}
+                  >
                     POST
                   </button>
+                  {error && <p className="error">{error}</p>}
                 </form>
               </div>
             </div>
