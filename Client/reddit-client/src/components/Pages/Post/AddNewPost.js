@@ -17,7 +17,7 @@ const AddNewPost = ({ history }) => {
   const { user } = location.state;
 
   const [communityList, setCommunityList] = useState([]);
-  const [community, setCommunity] = useState(null);
+  const [community, setCommunity] = useState("choose community");
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const [text, setText] = useState("");
@@ -47,6 +47,9 @@ const AddNewPost = ({ history }) => {
 
     event.preventDefault();
 
+    if (community == "choose community")
+      setCommunity(null);
+
     const p = {
       authorization: localStorage.getItem("token"),
       communityName: community,
@@ -59,7 +62,6 @@ const AddNewPost = ({ history }) => {
     axios
       .post("http://localhost:3000/posts/createPost", p)
       .then((res) => {
-        console.log(res.data);
         history.push({
           pathname: "/",
           state: { user: res.data },
@@ -84,7 +86,7 @@ const AddNewPost = ({ history }) => {
 
             <Dropdown>
               <Dropdown.Toggle variant="light" id="dropdown-basic">
-                {" Choose Community "}
+                {community}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>

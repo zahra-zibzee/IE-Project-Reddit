@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const CommunityList = (params) => {
   const topCommunities = params.topCommunities;
+  const user = params.user;
 
   return (
     <>
@@ -15,12 +16,15 @@ const CommunityList = (params) => {
           {topCommunities.map((community) => {
             return (
               <Link
-                to="/community"
+                to={{
+                  pathname: "/community",
+                  state: { community: community, user: user},
+                }}
                 className="text-decoration-node f-small fw-bold text-dark"
               >
                 <li className="list-group-item">
-                  <img src={communityImage} width="40" className="me-3"/>
-                  {community}
+                  <img src={communityImage} width="40" className="me-3" />
+                  {community.name}
                 </li>
               </Link>
             );

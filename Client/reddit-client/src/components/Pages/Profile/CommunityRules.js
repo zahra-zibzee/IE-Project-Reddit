@@ -11,7 +11,7 @@ const CommunityRules = (params) => {
         <ul className="list-group p-2 mb-4">
             {
                rules.map((rule, index) => {
-                   return <li className="list-group-item">{index + 1 + ". " + rule}</li>
+                   return <li className="list-group-item" key={index} >{index + 1 + ". " + rule}</li>
                })
             }
           

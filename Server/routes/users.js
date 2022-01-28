@@ -82,14 +82,15 @@ router.post("/signin", async (req, res) => {
 //return recent posts of communities which user followed them
 router.post("/recentPosts", userAuth, async (req, res) => {
   let recentPosts = [];
-  let communityIDs = req.user.community_ids;
-  for (const i in communityIDs) {
-    let community = await Community.findOne({ _id: communityIDs[i] });
-    let communityPosts = community.posts.slice(
-      community.posts.length - 10,
-      community.posts.length
-    );
-    if (!communityPosts) recentPosts.push(...communityPosts);
+  const user = await User.findOne({username: req.user.username});
+  let communityNames = user.community_names;
+  console.log(communityNames);
+  for (const i in communityNames) {
+    let community = await Community.findOne({ name: communityNames[i] });
+    let communityPosts = community.posts;
+    console.log(communityPosts);
+    if (communityPosts) 
+      recentPosts.push(...communityPosts);
   }
   return res.status(200).json({
     recentPosts,
@@ -97,20 +98,22 @@ router.post("/recentPosts", userAuth, async (req, res) => {
 });
 
 //join a community
-router.put("/joinCommunity", userAuth, async (req, res) => {
+router.post("/joinCommunity", userAuth, async (req, res) => {
   //getting name of that community from client
   const community = await Community.findOne({ name: req.body.name });
-  await User.findOneAndUpdate(
+  const modifiedUser = await User.findOneAndUpdate(
     { username: req.user.username },
-    { $push: { community_ids: community._id.toString() } }
+    { $push: { community_names: community.name } },
+    { new: true }
   );
 
   //update community followers
-  await Community.findOneAndUpdate(
+  const modifiedCommunity = await Community.findOneAndUpdate(
     { name: req.body.name },
-    { $push: { members: req.user._id.toString() } }
+    { $push: { members: req.user._id.toString() } },
+    { new: true }
   );
-  return res.status(200).send();
+  return res.status(200).send(modifiedUser);
 });
 
 //return all posts of the user

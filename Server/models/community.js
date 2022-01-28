@@ -19,8 +19,7 @@ const communitySchema = new mongoose.Schema({
         default: Date.now
     },
     members:[String],
-    posts:[String],
-    rules:[ String ]
+    posts:[String]
 });
 
 const Community = mongoose.model('Community', communitySchema);

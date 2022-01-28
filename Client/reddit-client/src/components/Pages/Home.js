@@ -8,40 +8,72 @@ import commentIcon from "../../assets/media/comment.png";
 
 import PostItem from "./Post/PostItem";
 import CommunityList from "../Layouts/CommunityList";
-import { ButtonGroup, Button } from "react-bootstrap";
+import { Modal, ButtonGroup, Button } from "react-bootstrap";
 import axios from "axios";
 
 const Home = () => {
   document.body.style.backgroundColor = "rgba(172, 183, 185, 0.568)";
   const [posts, setPosts] = useState([]);
-  const topCommunities = ["com1", "com2", "com3", "com4", "com5"];
+  const [topCommunities, setTopCommunities] = useState([]);
 
   //1 for newest
   //2 for most commented
   //3 for most liked
   const [listMode, setListMode] = useState(1);
   const [user, setUser] = useState(null);
+  const [showAddCommunity, setShowAddCommunity] = useState(false);
+  const [newCommunityName, setNewCommunityName] = useState("");
+  const [newCommunityDescription, setNewCommunityDescription] = useState("");
+
   const location = useLocation();
 
   const fetchRecentPosts = () => {
     const body = {
       authorization: localStorage.getItem("token"),
     };
+    axios.post("http://localhost:3000/users/recentPosts", body).then((res) => {
+      setPosts(res.data.recentPosts);
+    });
+  };
+
+  const fetchTopCommunities = () => {
     axios
-      .post("http://localhost:3000/users/recentPosts", body)
+      .post("http://localhost:3000/communities/hottestCommunities")
       .then((res) => {
-        setPosts(res.data.recentPosts);
-      })
-      .catch((err) => {
-        if (err.response.data == "User with this username was not found")
-          setUserError(err.response.data);
-        else setPassError(err.response.data);
+        let communities = res.data;
+        communities = communities
+          .sort((a, b) => b.members.length - a.members.length)
+          .filter((a, index) => index < 5);
+
+        setTopCommunities(communities);
       });
   };
+
+  const addCommunity = () => {
+    const body = {
+      authorization: localStorage.getItem("token"),
+      name: newCommunityName,
+      description: newCommunityDescription
+    };
+
+    axios
+      .post("http://localhost:3000/communities/createCommunity", body)
+      .then((res) => {
+        alert("community created successfully");
+      })
+      .catch((err) => console.log(err.response.data));
+
+    setShowAddCommunity(false);
+    setNewCommunityDescription("");
+    setNewCommunityName("");
+    
+    fetchTopCommunities();
+  }
 
   useEffect(() => {
     setUser(location.state.user);
     fetchRecentPosts();
+    fetchTopCommunities();
   }, [location]);
 
   return (
@@ -108,11 +140,40 @@ const Home = () => {
           </div>
 
           {posts.map((post, index) => {
-            return <PostItem key={index} post={post} />;
+            return <PostItem key={index} postId={post} />;
           })}
+
+          <Modal show={showAddCommunity} onHide={() => setShowAddCommunity(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>add new community</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input className="form-control mb-3" placeholder="community name" value={newCommunityName} onChange={(e) => setNewCommunityName(e.target.value)} />
+              <textarea className="form-control" placeholder="description" value={newCommunityDescription} onChange={(e) => setNewCommunityDescription(e.target.value)} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="outline-primary"
+                className="rounded-pill"
+                onClick={() => addCommunity()}
+              >
+                add
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
         <div className="col-3">
-          <CommunityList topCommunities={topCommunities} />
+          {!!topCommunities && (
+            <CommunityList topCommunities={topCommunities} user={user} />
+          )}
+
+          <Button
+            variant="outline-primary"
+            className="rounded-pill"
+            onClick={() => setShowAddCommunity(true)}
+          >
+            add community
+          </Button>
         </div>
         <div className="col-2"></div>
       </div>

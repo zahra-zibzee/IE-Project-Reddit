@@ -10,11 +10,10 @@ const { Post } = require("../models/post");
 
 //make a post
 router.post("/createPost", userAuth, async (req, res) => {
-  //client sends community name
-
+  
   const user = await User.findOne({ username: req.user.username });
-  console.log(user.posts.length);
   const community = await Community.findOne({ name: req.body.communityName });
+  //save post
   const newPost = new Post({
     post_type: req.body.post_type,
     title: req.body.title,
@@ -29,13 +28,20 @@ router.post("/createPost", userAuth, async (req, res) => {
     return res.status(500).send(err.message);
   });
 
-  //modify post to add this comment to it
+  //save post in its community
+  if(community != null){
+    const modifiedCommunity = await Community.findOneAndUpdate({name: req.body.communityName},
+      { $push: { posts: newPost._id.toString() } },
+      {new: true});
+  }
+
+
+  //save post in user 
   const modifiedUser = await User.findOneAndUpdate(
     { _id: req.user._id },
     { $push: { posts: newPost._id.toString() } },
     { new: true }
   );
-  console.log(modifiedUser.posts.length);
   return res.status(201).send(modifiedUser);
 });
 

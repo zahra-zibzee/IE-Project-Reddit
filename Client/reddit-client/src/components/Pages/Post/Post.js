@@ -21,8 +21,9 @@ const Post = () => {
   const location = useLocation();
   const { user, currentPost } = location.state;
 
+  console.log(currentPost)
+
   const [post, setPost] = useState(currentPost);
-  console.log(post.comment_ids);
 
   document.body.style.backgroundColor = "#4B4746";
   const [liked, setLiked] = useState(false);
@@ -38,10 +39,6 @@ const Post = () => {
   const [newComment, setNewComment] = useState("");
 
   const rules = ["first rule.", "second rule.", "forth rule.", "fifth rule."];
-
-  //1 for text
-  //2 for image/video
-  //3 for link
 
   const postMedia = "i don't know how to handle media yet!";
 
@@ -272,8 +269,6 @@ const Post = () => {
               </div>
             </div>
             <div className="col-3">
-              <ProfileInfoBox type="community" />
-              <CommunityRules rules={rules} />
             </div>
             <div className="col-1"></div>
           </div>

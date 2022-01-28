@@ -31,7 +31,6 @@ const Comment = ({ commentId }) => {
       .post("http://localhost:3000/comments/getComment", body)
       .then((res) => {
         setComment(res.data);
-        console.log(res);
         setLikeCount(comment.likes.length - comment.dislikes.length);
       })
       .catch((err) => console.log(err.response.data));

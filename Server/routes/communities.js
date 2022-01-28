@@ -12,7 +12,6 @@ router.post('/createCommunity', userAuth, async(req, res) => {
     const newCommunity = new Community({
         name: req.body.name,
         created_date: Date.now(),
-        rules: req.body.rules,
         description: req.body.description,
         admins: [req.user._id]
     })
@@ -63,8 +62,9 @@ router.get('/aboutCommunity',userAuth, async (req, res) => {
 })
 
 //hottest communities
-router.get('/hottestCommunities', async(req, res) => {
-    res.status(200).send(Community.find({}));
+router.post('/hottestCommunities', async(req, res) => {
+    const result = await Community.find({});
+    res.status(200).send(result);
 })
 
 

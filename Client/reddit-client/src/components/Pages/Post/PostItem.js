@@ -45,7 +45,6 @@ const PostItem = ({ user, postId }) => {
   };
 
   useEffect(() => {
-    console.log("here");
     fetchPost();
   }, []);
 

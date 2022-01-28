@@ -1,18 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import profilePhoto from "../../../assets/media/community.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const ProfileInfoBox = (params) => {
-  const type = params.type;
-  const user = params.user;
-  const community = params.community;
-
-
-  const name = type == 'user' ? user.username : "community.name";
-  const about = type == 'user' ? user.about : "community.about";
-  const memberCount = type == 'user' ? 20 : "community.members.length";
+const ProfileInfoBox = ({ type, user, community, getCurrentUser }) => {
+  debugger
+  const name = type == "user" ? user.username : community.name;
+  const about = type == "user" ? user.about : community.description;
+  const [memberCount, setMemberCount] = useState(
+    type == "user" ? 20 : community.members.length
+  );
 
   const [followsJoined, setFollowsJoined] = useState(false);
+
+  const followJoin = () => {
+    const body = {
+      authorization: localStorage.getItem("token"),
+      name: community.name,
+    };
+
+    if (type == "community" && !followsJoined) {
+      axios
+        .post("http://localhost:3000/users/joinCommunity", body)
+        .then((res) => {
+          setFollowsJoined(!followsJoined);
+          setMemberCount(memberCount + 1);
+          getCurrentUser(res.data);
+        });
+    } else if (type == "community" && !followsJoined) {
+      //axios leave
+    }
+  };
+
+  useEffect(() => {
+    if (
+      type == "community" &&
+      community.members.includes(user._id.toString())
+    ) {
+      setFollowsJoined(true);
+    }
+  }, []);
 
   return (
     <>
@@ -49,9 +76,9 @@ const ProfileInfoBox = (params) => {
         </div>
 
         <div className="row">
-          <btn
+          <button
             className="btn btn-outline-primary mb-3  m-auto w-25 rounded-pill"
-            onClick={() => setFollowsJoined(!followsJoined)}
+            onClick={() => followJoin()}
           >
             {type == "community" && !followsJoined
               ? "join"
@@ -60,7 +87,7 @@ const ProfileInfoBox = (params) => {
               : type == "user" && !followsJoined
               ? "follow"
               : "unfollow"}
-          </btn>
+          </button>
         </div>
       </div>
     </>
