@@ -3,11 +3,11 @@ a simple server-client reddit web application implemented with React and Node.js
 This app is kind of a social media app, people can sign up and post their favorite contents online. Also there exists some communities that are run by some admins. People can join these communities and share their posts via them. Every user can see their following communities recent posts on their home page. 
 ## Sign Up
 
-![audio](https://www.linkpicture.com/q/singup_1.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/singup.png)
 
 ## Sign in 
 
-![audio](https://www.linkpicture.com/q/login_15.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/home.png)
 
 ## Home Page
 ![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/homepage.png)
@@ -27,19 +27,19 @@ This app is kind of a social media app, people can sign up and post their favori
 
 ## User Account
 
-![audio](https://www.linkpicture.com/q/useraccount.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/useraccount.png)
 
 ## User Profile
 
-![audio](https://www.linkpicture.com/q/userprofile.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/userprofile.png)
 
 ## User Page
 
-![audio](https://www.linkpicture.com/q/userpage.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/userpage.png)
 
 ## Post
 
-![audio](https://www.linkpicture.com/q/post.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/post.png)
 
 ## Installation
 
