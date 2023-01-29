@@ -10,20 +10,20 @@ This app is kind of a social media app, people can sign up and post their favori
 ![audio](https://www.linkpicture.com/q/login_15.png)
 
 ## Home Page
-![audio](https://www.linkpicture.com/q/homepage.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/homepage.png)
 
 
 ## Community Page
 
-![audio](https://www.linkpicture.com/q/communitypage.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/communitypage.png)
 
 ## Community Page
 
-![audio](https://www.linkpicture.com/q/addnewcommunity.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/addnewcommunity.png)
 
 ## Create Post
 
-![audio](https://www.linkpicture.com/q/createpost.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/createpost.png)
 
 ## User Account
 
