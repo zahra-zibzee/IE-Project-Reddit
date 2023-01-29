@@ -7,7 +7,7 @@ This app is kind of a social media app, people can sign up and post their favori
 
 ## Sign in 
 
-![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/home.png)
+![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/login.png)
 
 ## Home Page
 ![audio](https://github.com/zahra-zibzee/IE-Project-Reddit/blob/front-end/homepage.png)
